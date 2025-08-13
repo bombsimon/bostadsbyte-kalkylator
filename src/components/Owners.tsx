@@ -43,7 +43,7 @@ export default function Owners({
             />
           </div>
           <div>
-            <div className="label mb-1">Kapital till kontantinsats (kr)</div>
+            <div className="label mb-1">Kapital (kr)</div>
             <input
               className="input"
               type="number"
