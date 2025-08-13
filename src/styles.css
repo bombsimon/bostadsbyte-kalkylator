@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --border: rgba(255, 255, 255, 0.08);
+}
+.card {
+  @apply rounded-2xl border;
+  border-color: var(--border);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0)
+  );
+}
+.kpi {
+  @apply rounded-2xl border p-3;
+  border-color: var(--border);
+  background-color: theme("colors.card");
+}
+.input {
+  @apply w-full rounded-xl border px-3 py-2 bg-panel text-text;
+  border-color: var(--border);
+}
+.btn {
+  @apply font-semibold rounded-xl px-3 py-2;
+  background-image: linear-gradient(
+    90deg,
+    theme("colors.accent"),
+    theme("colors.accent2")
+  );
+  color: #0b0e14;
+}
+.btn-ghost {
+  @apply rounded-xl px-3 py-2 border;
+  border-color: var(--border);
+  color: theme("colors.sub");
+  background: transparent;
+}
+.pill {
+  @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm;
+  background-color: theme("colors.muted");
+  color: #dfe6ff;
+}
+.label {
+  @apply text-sm text-sub;
+}
+.hr {
+  height: 1px;
+  background: var(--border);
+}
+.table {
+  @apply w-full;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.table th {
+  @apply text-left text-sm text-sub;
+}
+.table td {
+  @apply px-1 py-1;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.mono {
+  font-variant-numeric: tabular-nums;
+}
