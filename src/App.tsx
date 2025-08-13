@@ -12,7 +12,7 @@ import NewProperty from "./components/NewProperty";
 import Charts from "./components/Charts";
 import ExportButtons from "./components/ExportButtons";
 import ExportTable from "./components/ExportTable";
-import FileSync from "./components/FileSync";
+import ImportExportButtons from "./components/ImportExportButtons";
 
 export default function App() {
   const [s, setS] = React.useState<State>(load());
@@ -24,9 +24,13 @@ export default function App() {
     setS((prev) => {
       const next = { ...prev, ...p };
       save(next);
-      window.dispatchEvent(new Event("bostadsbyte-change")); // för FileSync
       return next;
     });
+  }
+
+  function importData(data: State) {
+    setS(data);
+    save(data);
   }
 
   function mapChange<T extends keyof State>(key: T) {
@@ -51,26 +55,6 @@ export default function App() {
     };
   }
 
-  const csvRows = () => {
-    const rows: string[][] = [];
-    rows.push(["Fält", "Värde"]);
-    rows.push(["Försäljningspris", String(s.salePrice)]);
-    rows.push(["Inköpspris (nuvarande)", String(s.purchasePriceOld)]);
-    rows.push(["Lån att lösa", String(kpi.loans)]);
-    rows.push(["Försäljningskostnader", String(kpi.sellCosts)]);
-    rows.push(["Förbättringar", String(kpi.improvements)]);
-    rows.push(["Vinst", String(kpi.gainRaw)]);
-    rows.push(["Vinstskatt", String(kpi.tax)]);
-    rows.push(["Netto efter försäljning", String(kpi.netAfter)]);
-    rows.push(["Tillgänglig kontantinsats", String(kpi.downPayment)]);
-    rows.push(["Ny bostad pris", String(s.newPrice)]);
-    rows.push(["Behövligt lån", String(kpi.neededLoan)]);
-    rows.push(["Belåningsgrad", `${(kpi.ltv * 100).toFixed(1)}%`]);
-    rows.push(["Amort/mån", String(kpi.amortMonthly)]);
-    rows.push(["Ränta/mån", String(kpi.interestMonthly)]);
-    rows.push(["Total månadskostnad", String(kpi.monthlyTotal)]);
-    return rows;
-  };
 
   const chartData = React.useMemo(
     () => [
@@ -94,8 +78,8 @@ export default function App() {
             <h1 className="text-xl font-semibold">Bostadsbyte-kalkylator</h1>
             <span className="pill">Vinstskatt antas 22%</span>
             <div className="ml-auto flex items-center gap-3">
-              <ExportButtons getCsvRows={csvRows} captureRef={captureRef} />
-              <FileSync dataProvider={() => s} />
+              <ExportButtons captureRef={captureRef} />
+              <ImportExportButtons s={s} onImport={importData} />
               <button
                 className="btn-ghost"
                 onClick={() => {
@@ -110,9 +94,7 @@ export default function App() {
             </div>
           </div>
           <p className="text-sub text-sm">
-            Allt sparas lokalt i webbläsaren. Du kan även koppla en{" "}
-            <b>lokal JSON-fil</b> och då sparas alla ändringar dit (stöds i
-            Chromium-baserade webbläsare).
+            Allt sparas lokalt i webbläsaren. Du kan exportera och importera data som JSON-filer för att säkerhetskopiera eller dela beräkningar.
           </p>
         </div>
       </header>
