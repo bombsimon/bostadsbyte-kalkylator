@@ -11,6 +11,7 @@ import Summary from "./components/Summary";
 import NewProperty from "./components/NewProperty";
 import Charts from "./components/Charts";
 import ExportButtons from "./components/ExportButtons";
+import ExportTable from "./components/ExportTable";
 import FileSync from "./components/FileSync";
 
 export default function App() {
@@ -200,8 +201,10 @@ export default function App() {
 
         <Summary kpi={kpi} />
 
-        <div ref={captureRef} className="space-y-3">
-          <Charts data={chartData} />
+        <Charts data={chartData} />
+
+        <div ref={captureRef}>
+          <ExportTable s={s} kpi={kpi} />
         </div>
 
         <footer className="text-sub text-sm">
