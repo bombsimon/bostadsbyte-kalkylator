@@ -203,7 +203,7 @@ export default function App() {
 
         <Charts data={chartData} />
 
-        <div ref={captureRef}>
+        <div ref={captureRef} className="hidden">
           <ExportTable s={s} kpi={kpi} />
         </div>
 
