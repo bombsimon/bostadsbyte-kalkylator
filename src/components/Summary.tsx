@@ -6,7 +6,11 @@ export default function Summary({ kpi }: { kpi: any }) {
       <h3 className="text-lg font-semibold mb-2">Summering</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <K label="Hushållets brutto / mån" v={SEK(kpi.totalIncomeMonthly)} />
-        <K label="4,5×-tak (år)" v={SEK(kpi.dtiLimit)} />
+        <K
+          label={`4,5×-tak årsinkomst${kpi.neededLoan > kpi.dtiLimit ? " (+1% amortering)" : ""}`}
+          v={SEK(kpi.dtiLimit)}
+          dtiExceeded={kpi.neededLoan > kpi.dtiLimit}
+        />
         <K label="Kapital till kontantinsats" v={SEK(kpi.totalCapital)} />
         <K label="Summa lån att lösa" v={SEK(kpi.loans)} />
         <K label="Beräknad vinst" v={SEK(kpi.gainRaw)} />
@@ -19,8 +23,9 @@ export default function Summary({ kpi }: { kpi: any }) {
         <K label="Tillgänglig kontantinsats" v={SEK(kpi.downPayment)} />
         <K label="Behövligt lån" v={SEK(kpi.neededLoan)} />
         <K
-          label="Belåningsgrad"
+          label={`Belåningsgrad${kpi.ltv > 0.7 ? " (+2% amortering)" : kpi.ltv > 0.5 ? " (+1% amortering)" : ""}`}
           v={`${(kpi.ltv * 100).toFixed(1).replace(".", ",")} %`}
+          ltvColor={kpi.ltv}
         />
         <K label="Amort / mån" v={SEK(kpi.amortMonthly)} />
         <K label="Ränta / mån" v={SEK(kpi.interestMonthly)} />
@@ -35,16 +40,45 @@ function K({
   v,
   good,
   danger,
+  ltvColor,
+  dtiExceeded,
 }: {
   label: string;
   v: string;
   good?: boolean;
   danger?: boolean;
+  ltvColor?: number;
+  dtiExceeded?: boolean;
 }) {
+  let colorClass = "";
+  let warningText = "";
+
+  if (ltvColor !== undefined) {
+    if (ltvColor < 0.5) {
+      colorClass = "text-green-600";
+    } else if (ltvColor < 0.7) {
+      colorClass = "text-blue-600";
+    } else if (ltvColor < 0.85) {
+      colorClass = "text-orange-500";
+    } else {
+      colorClass = "text-red-600";
+      warningText = "För hög belåning!";
+    }
+  } else if (dtiExceeded !== undefined) {
+    colorClass = dtiExceeded ? "text-red-600" : "text-green-600";
+  } else {
+    colorClass = good ? "text-good" : danger ? "text-bad" : "";
+  }
+
   return (
-    <div className={`kpi ${good ? "text-good" : danger ? "text-bad" : ""}`}>
+    <div className={`kpi ${colorClass}`}>
       <div className="label">{label}</div>
       <div className="mono text-lg">{v}</div>
+      {warningText && (
+        <div className="text-xs text-red-600 font-semibold mt-1">
+          {warningText}
+        </div>
+      )}
     </div>
   );
 }
