@@ -42,6 +42,15 @@ export default function NewProperty({
             value={s.hoaFee}
             onChange={(e) => onChange({ hoaFee: +e.target.value || 0 })}
           />
+          <input
+            className="w-full mt-2"
+            type="range"
+            min={0}
+            max={10000}
+            step={50}
+            value={s.hoaFee}
+            onChange={(e) => onChange({ hoaFee: +e.target.value || 0 })}
+          />
         </div>
         <div>
           <div className="label mb-1">BRF / Beteckning (valfritt)</div>
