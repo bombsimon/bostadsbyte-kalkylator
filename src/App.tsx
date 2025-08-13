@@ -55,17 +55,6 @@ export default function App() {
     };
   }
 
-  const chartData = React.useMemo(
-    () => [
-      { name: "Netto efter förs.", value: kpi.netAfter },
-      { name: "Kontantinsats", value: kpi.downPayment },
-      { name: "Behövligt lån", value: kpi.neededLoan },
-      { name: "Amort/mån", value: kpi.amortMonthly },
-      { name: "Ränta/mån", value: kpi.interestMonthly },
-    ],
-    [kpi],
-  );
-
   return (
     <div>
       <header
@@ -181,9 +170,9 @@ export default function App() {
 
         <NewProperty s={s} onChange={patch} />
 
-        <Summary kpi={kpi} />
+        <Charts kpi={kpi} s={s} />
 
-        <Charts data={chartData} />
+        <Summary kpi={kpi} />
 
         <div ref={captureRef} className="hidden">
           <ExportTable s={s} kpi={kpi} />
