@@ -6,13 +6,12 @@ export default function ExportButtons({
 }: {
   captureRef: React.RefObject<HTMLElement>;
 }) {
-
   const onPdf = async () => {
     if (!captureRef.current) return;
-    
+
     // Show the export table temporarily
-    captureRef.current.classList.remove('hidden');
-    
+    captureRef.current.classList.remove("hidden");
+
     try {
       const node = captureRef.current;
       const canvas = await html2canvas(node as HTMLElement, { scale: 2 });
@@ -26,7 +25,7 @@ export default function ExportButtons({
       pdf.save("bostadsbyte.pdf");
     } finally {
       // Hide the export table again
-      captureRef.current.classList.add('hidden');
+      captureRef.current.classList.add("hidden");
     }
   };
 

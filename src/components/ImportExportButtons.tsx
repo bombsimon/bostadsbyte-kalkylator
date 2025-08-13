@@ -9,7 +9,9 @@ export default function ImportExportButtons({
 }) {
   const onExport = () => {
     const dataStr = JSON.stringify(s, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json;charset=utf-8;" });
+    const blob = new Blob([dataStr], {
+      type: "application/json;charset=utf-8;",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -30,7 +32,9 @@ export default function ImportExportButtons({
           const data = JSON.parse(text);
           onImport(data);
         } catch (error) {
-          alert("Fel vid inläsning av fil. Kontrollera att det är en giltig JSON-fil.");
+          alert(
+            "Fel vid inläsning av fil. Kontrollera att det är en giltig JSON-fil.",
+          );
         }
       }
     };

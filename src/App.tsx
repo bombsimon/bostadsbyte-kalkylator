@@ -55,7 +55,6 @@ export default function App() {
     };
   }
 
-
   const chartData = React.useMemo(
     () => [
       { name: "Netto efter förs.", value: kpi.netAfter },
@@ -94,7 +93,8 @@ export default function App() {
             </div>
           </div>
           <p className="text-sub text-sm">
-            Allt sparas lokalt i webbläsaren. Du kan exportera och importera data som JSON-filer för att säkerhetskopiera eller dela beräkningar.
+            Allt sparas lokalt i webbläsaren. Du kan exportera och importera
+            data som JSON-filer för att säkerhetskopiera eller dela beräkningar.
           </p>
         </div>
       </header>
