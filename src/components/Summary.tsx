@@ -22,7 +22,7 @@ export default function Summary({ kpi, s }: { kpi: any; s: any }) {
         />
         <K
           label="Kostnader (förs.)"
-          v={SEK(kpi.sellCosts + kpi.improvements)}
+          v={SEK(kpi.sellCosts)}
         />
         <K label="Kvar efter försäljning" v={SEK(kpi.netAfter)} good />
         <K label="Tillgänglig kontantinsats" v={SEK(kpi.downPayment)} />
