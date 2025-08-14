@@ -24,7 +24,7 @@ export function compute(s: State) {
     0,
     (s.salePrice || 0) - sellCosts - (s.purchasePriceOld || 0) - improvements,
   );
-  const tax = gainRaw * 0.22;
+  const tax = s.uppskov ? 0 : gainRaw * 0.22;
   const netAfter = (s.salePrice || 0) - loans - sellCosts - tax;
 
   const downPayment = Math.max(0, netAfter + totalCapital);
@@ -60,5 +60,6 @@ export function compute(s: State) {
     amortMonthly,
     interestMonthly,
     monthlyTotal,
+    uppskov: s.uppskov,
   };
 }

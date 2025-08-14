@@ -37,6 +37,8 @@ export default function Charts({
     monthlyTotal: number;
     totalCapital: number;
     dtiLimit: number;
+    uppskov: boolean;
+    tax: number;
   };
   s: {
     hoaFee?: number;
@@ -58,7 +60,12 @@ export default function Charts({
 
   return (
     <section className="card p-4">
-      <h3 className="text-lg font-semibold mb-4">Visualisering</h3>
+      <div className="flex items-center gap-3 mb-4">
+        <h3 className="text-lg font-semibold">Visualisering</h3>
+        {kpi.uppskov && (
+          <span className="pill text-xs">Vinstskatt uppskjuten</span>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Large amounts bar chart */}
@@ -215,14 +222,17 @@ export default function Charts({
           </div>
           <div className="text-xs text-blue-600 mt-1 space-y-0.5">
             <div>
-              • Amortering: {Number(kpi.amortMonthly).toLocaleString("sv-SE")}{" "}
-              kr
+              • Amortering:{" "}
+              {Math.round(kpi.amortMonthly).toLocaleString("sv-SE")} kr
             </div>
             <div>
-              • Ränta: {Number(kpi.interestMonthly).toLocaleString("sv-SE")} kr
+              • Ränta: {Math.round(kpi.interestMonthly).toLocaleString("sv-SE")}{" "}
+              kr
             </div>
             {(s.hoaFee || 0) > 0 && (
-              <div>• Avgift: {Number(s.hoaFee).toLocaleString("sv-SE")} kr</div>
+              <div>
+                • Avgift: {Math.round(s.hoaFee || 0).toLocaleString("sv-SE")} kr
+              </div>
             )}
           </div>
         </div>
@@ -231,23 +241,23 @@ export default function Charts({
             Kontantinsats
           </div>
           <div className="text-lg font-bold text-green-800">
-            {Number(kpi.downPayment).toLocaleString("sv-SE")} kr
+            {Math.round(kpi.downPayment).toLocaleString("sv-SE")} kr
           </div>
           <div className="text-xs text-green-600 mt-1 space-y-0.5">
             <div>
               • Netto efter försäljning:{" "}
-              {Number(kpi.netAfter).toLocaleString("sv-SE")} kr
+              {Math.round(kpi.netAfter).toLocaleString("sv-SE")} kr
             </div>
             <div>
               • Egna tillgångar:{" "}
-              {Number(kpi.totalCapital).toLocaleString("sv-SE")} kr
+              {Math.round(kpi.totalCapital).toLocaleString("sv-SE")} kr
             </div>
           </div>
         </div>
         <div className="bg-purple-50 p-3 rounded-lg">
           <div className="text-xs text-purple-600 font-medium">Lånebehov</div>
           <div className="text-lg font-bold text-purple-800">
-            {Number(kpi.neededLoan).toLocaleString("sv-SE")} kr
+            {Math.round(kpi.neededLoan).toLocaleString("sv-SE")} kr
           </div>
         </div>
       </div>

@@ -138,6 +138,19 @@ export default function App() {
               </div>
             </div>
 
+            <div className="flex items-center gap-2 mt-3 mb-3">
+              <input
+                type="checkbox"
+                id="uppskov"
+                checked={s.uppskov}
+                onChange={(e) => patch({ uppskov: e.target.checked })}
+                className="rounded border-gray-300"
+              />
+              <label htmlFor="uppskov" className="text-sm">
+                Uppskov av vinstskatt (skjut upp skatten till nästa försäljning)
+              </label>
+            </div>
+
             <div className="grid grid-cols-1 gap-3 mt-3">
               <Loans
                 loans={s.loans}

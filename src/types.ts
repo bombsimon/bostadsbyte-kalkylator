@@ -15,6 +15,7 @@ export type State = {
   salePrice: number;
   purchasePriceOld: number;
   purchaseDateOld?: string;
+  uppskov: boolean;
   newPrice: number;
   rate: number; // annual %
   hoaFee: number; // monthly

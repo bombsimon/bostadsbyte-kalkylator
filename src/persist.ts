@@ -21,6 +21,7 @@ export function load(): State {
     salePrice: 0,
     purchasePriceOld: 0,
     purchaseDateOld: "",
+    uppskov: false,
     newPrice: 0,
     rate: 0,
     hoaFee: 0,
