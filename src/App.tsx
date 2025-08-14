@@ -90,10 +90,6 @@ export default function App() {
               </button>
             </div>
           </div>
-          <p className="text-sub text-sm mt-2 md:mt-0">
-            Allt sparas lokalt i webbläsaren. Du kan exportera och importera
-            data som JSON-filer för att säkerhetskopiera eller dela beräkningar.
-          </p>
         </div>
       </header>
 
