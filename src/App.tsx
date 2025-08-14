@@ -16,6 +16,7 @@ import ExportTable from "./components/ExportTable";
 import ImportExportButtons from "./components/ImportExportButtons";
 import CollapsibleSection from "./components/CollapsibleSection";
 import MobileMenu from "./components/MobileMenu";
+import CollapsiblePriceControl from "./components/CollapsiblePriceControl";
 
 export default function App() {
   const [s, setS] = React.useState<State>(load());
@@ -93,101 +94,101 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto p-3 space-y-3">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <Owners
-            owners={s.owners}
-            onChange={mapChange("owners")}
-            onAdd={() =>
-              addItem("owners", { name: "", incomeMonthly: 0, capital: 0 })
-            }
-            onRemove={removeItem("owners")}
-          />
+      <main className="max-w-4xl mx-auto p-3 space-y-3">
+        <Owners
+          owners={s.owners}
+          onChange={mapChange("owners")}
+          onAdd={() =>
+            addItem("owners", { name: "", incomeMonthly: 0, capital: 0 })
+          }
+          onRemove={removeItem("owners")}
+        />
 
-          <CollapsibleSection title="Nuvarande lägenhet (försäljning)">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div>
-                <div className="label mb-1">Försäljningspris (kr)</div>
-                <input
-                  className="input"
-                  type="number"
-                  step={1000}
-                  min={0}
-                  value={s.salePrice}
-                  onChange={(e) =>
-                    patch({ salePrice: parseNumberInput(e.target.value) })
-                  }
-                  onInput={handleLeadingZeros}
-                />
-              </div>
-              <div>
-                <div className="label mb-1">Inköpspris (kr)</div>
-                <input
-                  className="input"
-                  type="number"
-                  step={1000}
-                  min={0}
-                  value={s.purchasePriceOld}
-                  onChange={(e) =>
-                    patch({
-                      purchasePriceOld: parseNumberInput(e.target.value),
-                    })
-                  }
-                  onInput={handleLeadingZeros}
-                />
-              </div>
-              <div>
-                <div className="label mb-1">Datum för inköp</div>
-                <input
-                  className="input"
-                  type="date"
-                  value={s.purchaseDateOld}
-                  onChange={(e) => patch({ purchaseDateOld: e.target.value })}
-                />
-              </div>
-            </div>
+        <CollapsibleSection title="Nuvarande lägenhet (försäljning)">
+          <div className="grid grid-cols-1 gap-3">
+            <Loans
+              loans={s.loans}
+              onAdd={() => addItem("loans", { name: "Lån", balance: 0 })}
+              onChange={mapChange("loans")}
+              onRemove={removeItem("loans")}
+            />
+            <Costs
+              title="Kostnader vid försäljning"
+              items={s.sellCosts}
+              onAdd={() => addItem("sellCosts", { name: "Kostnad", amount: 0 })}
+              onChange={mapChange("sellCosts")}
+              onRemove={removeItem("sellCosts")}
+            />
+            <Improvements
+              title="Förbättringsutgifter (avdragsgilla)"
+              items={s.improvements}
+              onAdd={() =>
+                addItem("improvements", { name: "Förbättring", amount: 0 })
+              }
+              onChange={mapChange("improvements")}
+              onRemove={removeItem("improvements")}
+            />
 
-            <div className="flex items-center gap-2 mt-3 mb-3">
-              <input
-                type="checkbox"
-                id="uppskov"
-                checked={s.uppskov}
-                onChange={(e) => patch({ uppskov: e.target.checked })}
-                className="rounded border-gray-300"
-              />
-              <label htmlFor="uppskov" className="text-sm">
-                Uppskov av vinstskatt (skjut upp skatten till nästa försäljning)
-              </label>
-            </div>
+            {/* Sale details at bottom */}
+            <CollapsibleSection title="Grunduppgifter försäljning">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                  <div className="label mb-1">Försäljningspris (kr)</div>
+                  <input
+                    className="input"
+                    type="number"
+                    step={1000}
+                    min={0}
+                    value={s.salePrice}
+                    onChange={(e) =>
+                      patch({ salePrice: parseNumberInput(e.target.value) })
+                    }
+                    onInput={handleLeadingZeros}
+                  />
+                </div>
+                <div>
+                  <div className="label mb-1">Inköpspris (kr)</div>
+                  <input
+                    className="input"
+                    type="number"
+                    step={1000}
+                    min={0}
+                    value={s.purchasePriceOld}
+                    onChange={(e) =>
+                      patch({
+                        purchasePriceOld: parseNumberInput(e.target.value),
+                      })
+                    }
+                    onInput={handleLeadingZeros}
+                  />
+                </div>
+                <div>
+                  <div className="label mb-1">Datum för inköp</div>
+                  <input
+                    className="input"
+                    type="date"
+                    value={s.purchaseDateOld}
+                    onChange={(e) => patch({ purchaseDateOld: e.target.value })}
+                  />
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 gap-3 mt-3">
-              <Loans
-                loans={s.loans}
-                onAdd={() => addItem("loans", { name: "Lån", balance: 0 })}
-                onChange={mapChange("loans")}
-                onRemove={removeItem("loans")}
-              />
-              <Costs
-                title="Kostnader vid försäljning"
-                items={s.sellCosts}
-                onAdd={() =>
-                  addItem("sellCosts", { name: "Kostnad", amount: 0 })
-                }
-                onChange={mapChange("sellCosts")}
-                onRemove={removeItem("sellCosts")}
-              />
-              <Improvements
-                title="Förbättringsutgifter (avdragsgilla)"
-                items={s.improvements}
-                onAdd={() =>
-                  addItem("improvements", { name: "Förbättring", amount: 0 })
-                }
-                onChange={mapChange("improvements")}
-                onRemove={removeItem("improvements")}
-              />
-            </div>
-          </CollapsibleSection>
-        </div>
+              <div className="flex items-center gap-2 mt-3">
+                <input
+                  type="checkbox"
+                  id="uppskov-detail"
+                  checked={s.uppskov}
+                  onChange={(e) => patch({ uppskov: e.target.checked })}
+                  className="rounded border-gray-300"
+                />
+                <label htmlFor="uppskov-detail" className="text-sm">
+                  Uppskov av vinstskatt (skjut upp skatten till nästa
+                  försäljning)
+                </label>
+              </div>
+            </CollapsibleSection>
+          </div>
+        </CollapsibleSection>
 
         <NewProperty s={s} onChange={patch} />
 
@@ -206,6 +207,9 @@ export default function App() {
           bank/Skatteverket.
         </footer>
       </main>
+
+      {/* Collapsible price controls */}
+      <CollapsiblePriceControl s={s} onChange={patch} kpi={kpi} />
     </div>
   );
 }
