@@ -70,6 +70,8 @@
 .github-fork-ribbon {
   opacity: 0.5;
   transition: opacity 0.2s;
+  position: fixed !important;
+  z-index: 50;
 }
 .github-fork-ribbon:hover {
   opacity: 1;
