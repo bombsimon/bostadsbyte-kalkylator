@@ -1,4 +1,5 @@
 import { LineItem } from "../types";
+import CollapsibleSection from "./CollapsibleSection";
 
 export default function Costs({
   items,
@@ -14,8 +15,7 @@ export default function Costs({
   onRemove: (idx: number) => void;
 }) {
   return (
-    <section className="card p-4">
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+    <CollapsibleSection title={title}>
       <table className="table">
         <thead>
           <tr>
@@ -58,6 +58,6 @@ export default function Costs({
       <button className="btn mt-2" onClick={onAdd}>
         + Lägg till
       </button>
-    </section>
+    </CollapsibleSection>
   );
 }

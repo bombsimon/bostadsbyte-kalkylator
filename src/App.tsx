@@ -13,6 +13,7 @@ import Charts from "./components/Charts";
 import ExportButtons from "./components/ExportButtons";
 import ExportTable from "./components/ExportTable";
 import ImportExportButtons from "./components/ImportExportButtons";
+import CollapsibleSection from "./components/CollapsibleSection";
 
 export default function App() {
   const [s, setS] = React.useState<State>(load());
@@ -98,10 +99,7 @@ export default function App() {
             onRemove={removeItem("owners")}
           />
 
-          <section className="card p-4">
-            <h2 className="text-lg font-semibold mb-2">
-              Nuvarande lägenhet (försäljning)
-            </h2>
+          <CollapsibleSection title="Nuvarande lägenhet (försäljning)">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
                 <div className="label mb-1">Försäljningspris (kr)</div>
@@ -177,7 +175,7 @@ export default function App() {
                 onRemove={removeItem("improvements")}
               />
             </div>
-          </section>
+          </CollapsibleSection>
         </div>
 
         <NewProperty s={s} onChange={patch} />

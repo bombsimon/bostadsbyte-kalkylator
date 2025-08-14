@@ -1,4 +1,5 @@
 import { Owner } from "../types";
+import CollapsibleSection from "./CollapsibleSection";
 
 export default function Owners({
   owners,
@@ -12,10 +13,7 @@ export default function Owners({
   onRemove: (idx: number) => void;
 }) {
   return (
-    <section className="card p-4">
-      <div className="flex items-center gap-3 mb-2">
-        <h2 className="text-lg font-semibold">Ägare och inkomster</h2>
-      </div>
+    <CollapsibleSection title="Ägare och inkomster">
       {owners.map((o, idx) => (
         <div key={o.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
           <div>
@@ -62,6 +60,6 @@ export default function Owners({
           + Lägg till ägare
         </button>
       </div>
-    </section>
+    </CollapsibleSection>
   );
 }

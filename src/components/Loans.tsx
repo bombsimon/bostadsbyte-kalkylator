@@ -1,4 +1,5 @@
 import { Loan } from "../types";
+import CollapsibleSection from "./CollapsibleSection";
 
 export default function Loans({
   loans,
@@ -12,8 +13,7 @@ export default function Loans({
   onRemove: (idx: number) => void;
 }) {
   return (
-    <section className="card p-4">
-      <h3 className="text-lg font-semibold mb-2">Nuvarande lån</h3>
+    <CollapsibleSection title="Nuvarande lån">
       <table className="table">
         <thead>
           <tr>
@@ -74,6 +74,6 @@ export default function Loans({
       <button className="btn mt-2" onClick={onAdd}>
         + Lägg till lån
       </button>
-    </section>
+    </CollapsibleSection>
   );
 }

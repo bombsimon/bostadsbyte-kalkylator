@@ -1,9 +1,9 @@
 import { SEK } from "../calc";
+import CollapsibleSection from "./CollapsibleSection";
 
 export default function Summary({ kpi, s }: { kpi: any; s: any }) {
   return (
-    <section className="card p-4">
-      <h3 className="text-lg font-semibold mb-2">Summering</h3>
+    <CollapsibleSection title="Summering">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <K label="Hushållets brutto / mån" v={SEK(kpi.totalIncomeMonthly)} />
         <K
@@ -42,7 +42,7 @@ export default function Summary({ kpi, s }: { kpi: any; s: any }) {
         />
         <K label="Total månadskostnad" v={SEK(kpi.monthlyTotal)} />
       </div>
-    </section>
+    </CollapsibleSection>
   );
 }
 

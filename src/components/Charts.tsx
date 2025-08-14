@@ -11,6 +11,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
+import CollapsibleSection from "./CollapsibleSection";
 
 const COLORS = ["#7c5cff", "#00d4ff", "#ff6b6b", "#4ecdc4", "#45b7d1"];
 
@@ -63,14 +64,16 @@ export default function Charts({
   const exceedsDtiLimit = kpi.neededLoan > kpi.dtiLimit && kpi.neededLoan > 0;
 
   return (
-    <section className="card p-4">
-      <div className="flex items-center gap-3 mb-4">
-        <h3 className="text-lg font-semibold">Visualisering</h3>
-        {kpi.uppskov && (
-          <span className="pill text-xs">Vinstskatt uppskjuten</span>
-        )}
-      </div>
-
+    <CollapsibleSection
+      title={
+        <div className="flex items-center gap-3">
+          <span>Visualisering</span>
+          {kpi.uppskov && (
+            <span className="pill text-xs">Vinstskatt uppskjuten</span>
+          )}
+        </div>
+      }
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Large amounts bar chart */}
         <div className="lg:col-span-2">
@@ -275,6 +278,6 @@ export default function Charts({
           </div>
         </div>
       </div>
-    </section>
+    </CollapsibleSection>
   );
 }

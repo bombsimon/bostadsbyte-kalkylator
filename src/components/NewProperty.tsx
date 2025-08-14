@@ -1,5 +1,6 @@
 import { State } from "../types";
 import { compute } from "../calc";
+import CollapsibleSection from "./CollapsibleSection";
 
 export default function NewProperty({
   s,
@@ -12,8 +13,7 @@ export default function NewProperty({
   const maxNewPrice =
     kpi.downPayment > 0 ? Math.floor(kpi.downPayment / 0.15) : 15000000;
   return (
-    <section className="card p-4">
-      <h2 className="text-lg font-semibold mb-2">Ny bostad (räkneexempel)</h2>
+    <CollapsibleSection title="Ny bostad (räkneexempel)">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div>
           <div className="label mb-1">Inköpspris (kr)</div>
@@ -87,6 +87,6 @@ export default function NewProperty({
           />
         </div>
       </div>
-    </section>
+    </CollapsibleSection>
   );
 }
