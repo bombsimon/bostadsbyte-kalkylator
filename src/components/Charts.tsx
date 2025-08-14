@@ -39,9 +39,12 @@ export default function Charts({
     dtiLimit: number;
     uppskov: boolean;
     tax: number;
+    baseAmort: number;
+    extraAmort: number;
   };
   s: {
     hoaFee?: number;
+    rate?: number;
   };
 }) {
   const largeAmounts = [
@@ -53,6 +56,7 @@ export default function Charts({
   const monthlyBreakdown = [
     { name: "Amortering", value: kpi.amortMonthly },
     { name: "Ränta", value: kpi.interestMonthly },
+    { name: "Månadsavgift", value: s.hoaFee || 0 },
   ].filter((item) => item.value > 0);
 
   const ltvPercentage = (kpi.ltv * 100).toFixed(1);
@@ -222,12 +226,15 @@ export default function Charts({
           </div>
           <div className="text-xs text-blue-600 mt-1 space-y-0.5">
             <div>
-              • Amortering:{" "}
-              {Math.round(kpi.amortMonthly).toLocaleString("sv-SE")} kr
+              • Amortering (
+              {((kpi.baseAmort + kpi.extraAmort) * 100)
+                .toFixed(1)
+                .replace(".", ",")}
+              %): {Math.round(kpi.amortMonthly).toLocaleString("sv-SE")} kr
             </div>
             <div>
-              • Ränta: {Math.round(kpi.interestMonthly).toLocaleString("sv-SE")}{" "}
-              kr
+              • Ränta ({(s.rate || 0).toString().replace(".", ",")}%):{" "}
+              {Math.round(kpi.interestMonthly).toLocaleString("sv-SE")} kr
             </div>
             {(s.hoaFee || 0) > 0 && (
               <div>
@@ -258,6 +265,13 @@ export default function Charts({
           <div className="text-xs text-purple-600 font-medium">Lånebehov</div>
           <div className="text-lg font-bold text-purple-800">
             {Math.round(kpi.neededLoan).toLocaleString("sv-SE")} kr
+          </div>
+          <div className="text-xs text-purple-600 mt-1">
+            • Pris nya bostaden:{" "}
+            {Math.round(kpi.neededLoan + kpi.downPayment).toLocaleString(
+              "sv-SE",
+            )}{" "}
+            kr
           </div>
         </div>
       </div>

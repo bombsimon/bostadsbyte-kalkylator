@@ -1,4 +1,5 @@
 import { State } from "../types";
+import { compute } from "../calc";
 
 export default function NewProperty({
   s,
@@ -7,6 +8,9 @@ export default function NewProperty({
   s: State;
   onChange: (patch: Partial<State>) => void;
 }) {
+  const kpi = compute(s);
+  const maxNewPrice =
+    kpi.downPayment > 0 ? Math.floor(kpi.downPayment / 0.15) : 15000000;
   return (
     <section className="card p-4">
       <h2 className="text-lg font-semibold mb-2">Ny bostad (räkneexempel)</h2>
@@ -26,9 +30,9 @@ export default function NewProperty({
             className="w-full mt-2"
             type="range"
             min={0}
-            max={15000000}
+            max={maxNewPrice}
             step={10000}
-            value={s.newPrice}
+            value={Math.min(s.newPrice, maxNewPrice)}
             onChange={(e) => onChange({ newPrice: +e.target.value || 0 })}
           />
         </div>

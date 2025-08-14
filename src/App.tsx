@@ -184,7 +184,7 @@ export default function App() {
 
         <Charts kpi={kpi} s={s} />
 
-        <Summary kpi={kpi} />
+        <Summary kpi={kpi} s={s} />
 
         <div ref={captureRef} className="hidden">
           <ExportTable s={s} kpi={kpi} />

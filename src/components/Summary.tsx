@@ -1,6 +1,6 @@
 import { SEK } from "../calc";
 
-export default function Summary({ kpi }: { kpi: any }) {
+export default function Summary({ kpi, s }: { kpi: any; s: any }) {
   return (
     <section className="card p-4">
       <h3 className="text-lg font-semibold mb-2">Summering</h3>
@@ -28,12 +28,18 @@ export default function Summary({ kpi }: { kpi: any }) {
         <K label="Tillgänglig kontantinsats" v={SEK(kpi.downPayment)} />
         <K label="Behövligt lån" v={SEK(kpi.neededLoan)} />
         <K
-          label={`Belåningsgrad${kpi.ltv > 0.7 ? " (+2% amortering)" : kpi.ltv > 0.5 ? " (+1% amortering)" : ""}`}
+          label="Belåningsgrad"
           v={`${(kpi.ltv * 100).toFixed(1).replace(".", ",")} %`}
           ltvColor={kpi.ltv}
         />
-        <K label="Amort / mån" v={SEK(kpi.amortMonthly)} />
-        <K label="Ränta / mån" v={SEK(kpi.interestMonthly)} />
+        <K
+          label={`Amort / mån (${((kpi.baseAmort + kpi.extraAmort) * 100).toFixed(1).replace(".", ",")}%)`}
+          v={SEK(kpi.amortMonthly)}
+        />
+        <K
+          label={`Ränta / mån (${(s.rate || 0).toString().replace(".", ",")}%)`}
+          v={SEK(kpi.interestMonthly)}
+        />
         <K label="Total månadskostnad" v={SEK(kpi.monthlyTotal)} />
       </div>
     </section>
