@@ -1,4 +1,5 @@
 import { Loan } from "../types";
+import { parseNumberInput, handleLeadingZeros } from "../utils";
 import CollapsibleSection from "./CollapsibleSection";
 
 export default function Loans({
@@ -41,8 +42,9 @@ export default function Loans({
                   min={0}
                   value={l.balance}
                   onChange={(e) =>
-                    onChange(idx, { balance: +e.target.value || 0 })
+                    onChange(idx, { balance: parseNumberInput(e.target.value) })
                   }
+                  onInput={handleLeadingZeros}
                 />
               </td>
               <td>
@@ -57,9 +59,10 @@ export default function Loans({
                       rate:
                         e.target.value === ""
                           ? undefined
-                          : +e.target.value || 0,
+                          : parseNumberInput(e.target.value),
                     })
                   }
+                  onInput={handleLeadingZeros}
                 />
               </td>
               <td className="text-right">

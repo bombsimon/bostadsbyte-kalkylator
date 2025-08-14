@@ -1,5 +1,6 @@
 import { State } from "../types";
 import { compute } from "../calc";
+import { parseNumberInput, handleLeadingZeros } from "../utils";
 import CollapsibleSection from "./CollapsibleSection";
 
 export default function NewProperty({
@@ -23,7 +24,10 @@ export default function NewProperty({
             step={1000}
             min={0}
             value={s.newPrice}
-            onChange={(e) => onChange({ newPrice: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ newPrice: parseNumberInput(e.target.value) })
+            }
+            onInput={handleLeadingZeros}
           />
           {/* Slider under input – utan label */}
           <input
@@ -33,7 +37,9 @@ export default function NewProperty({
             max={maxNewPrice}
             step={10000}
             value={Math.min(s.newPrice, maxNewPrice)}
-            onChange={(e) => onChange({ newPrice: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ newPrice: parseNumberInput(e.target.value) })
+            }
           />
         </div>
         <div>
@@ -44,7 +50,10 @@ export default function NewProperty({
             step={50}
             min={0}
             value={s.hoaFee}
-            onChange={(e) => onChange({ hoaFee: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ hoaFee: parseNumberInput(e.target.value) })
+            }
+            onInput={handleLeadingZeros}
           />
           <input
             className="w-full mt-2"
@@ -53,7 +62,9 @@ export default function NewProperty({
             max={10000}
             step={50}
             value={s.hoaFee}
-            onChange={(e) => onChange({ hoaFee: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ hoaFee: parseNumberInput(e.target.value) })
+            }
           />
         </div>
         <div>
@@ -74,7 +85,10 @@ export default function NewProperty({
             step={0.05}
             min={0}
             value={s.rate}
-            onChange={(e) => onChange({ rate: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ rate: parseNumberInput(e.target.value) })
+            }
+            onInput={handleLeadingZeros}
           />
           <input
             className="w-full mt-2"
@@ -83,7 +97,9 @@ export default function NewProperty({
             max={10}
             step={0.05}
             value={s.rate}
-            onChange={(e) => onChange({ rate: +e.target.value || 0 })}
+            onChange={(e) =>
+              onChange({ rate: parseNumberInput(e.target.value) })
+            }
           />
         </div>
       </div>

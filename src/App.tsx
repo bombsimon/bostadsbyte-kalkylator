@@ -1,6 +1,7 @@
 import * as React from "react";
 import { load, save } from "./persist";
 import { compute, SEK } from "./calc";
+import { parseNumberInput, handleLeadingZeros } from "./utils";
 import type { State } from "./types";
 
 import Owners from "./components/Owners";
@@ -109,7 +110,10 @@ export default function App() {
                   step={1000}
                   min={0}
                   value={s.salePrice}
-                  onChange={(e) => patch({ salePrice: +e.target.value || 0 })}
+                  onChange={(e) =>
+                    patch({ salePrice: parseNumberInput(e.target.value) })
+                  }
+                  onInput={handleLeadingZeros}
                 />
               </div>
               <div>
@@ -121,8 +125,11 @@ export default function App() {
                   min={0}
                   value={s.purchasePriceOld}
                   onChange={(e) =>
-                    patch({ purchasePriceOld: +e.target.value || 0 })
+                    patch({
+                      purchasePriceOld: parseNumberInput(e.target.value),
+                    })
                   }
+                  onInput={handleLeadingZeros}
                 />
               </div>
               <div>

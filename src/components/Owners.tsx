@@ -1,4 +1,5 @@
 import { Owner } from "../types";
+import { parseNumberInput, handleLeadingZeros } from "../utils";
 import CollapsibleSection from "./CollapsibleSection";
 
 export default function Owners({
@@ -33,8 +34,11 @@ export default function Owners({
               min={0}
               value={o.incomeMonthly}
               onChange={(e) =>
-                onChange(idx, { incomeMonthly: +e.target.value || 0 })
+                onChange(idx, {
+                  incomeMonthly: parseNumberInput(e.target.value),
+                })
               }
+              onInput={handleLeadingZeros}
             />
           </div>
           <div>
@@ -45,7 +49,10 @@ export default function Owners({
               step={1000}
               min={0}
               value={o.capital}
-              onChange={(e) => onChange(idx, { capital: +e.target.value || 0 })}
+              onChange={(e) =>
+                onChange(idx, { capital: parseNumberInput(e.target.value) })
+              }
+              onInput={handleLeadingZeros}
             />
           </div>
           <div className="col-span-full flex justify-end">
