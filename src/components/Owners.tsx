@@ -15,9 +15,6 @@ export default function Owners({
     <section className="card p-4">
       <div className="flex items-center gap-3 mb-2">
         <h2 className="text-lg font-semibold">Ägare och inkomster</h2>
-        <span className="pill">
-          Inkomst per <b>månad</b>
-        </span>
       </div>
       {owners.map((o, idx) => (
         <div key={o.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">

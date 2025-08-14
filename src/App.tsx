@@ -64,7 +64,6 @@ export default function App() {
         <div className="max-w-6xl mx-auto p-3">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-semibold">Bostadsbyte-kalkylator</h1>
-            <span className="pill">Vinstskatt antas 22%</span>
             <div className="ml-auto flex items-center gap-3">
               <ExportButtons captureRef={captureRef} />
               <ImportExportButtons s={s} onImport={importData} />
@@ -179,9 +178,9 @@ export default function App() {
         </div>
 
         <footer className="text-sub text-sm">
-          ⚠️ Förenklad modell. Amorteringsregler: 2% över 70% belåningsgrad, 1%
-          mellan 50–70%, 0% ≤50%. Extra 1% om skuldkvot &gt; 4,5×
-          bruttoårsinkomst (år). Regler kan ändras – kontrollera med
+          ⚠️ Förenklad modell. Vinstskatt antas 22%. Amorteringsregler: 2% över
+          70% belåningsgrad, 1% mellan 50–70%, 0% ≤50%. Extra 1% om skuldkvot
+          &gt; 4,5× bruttoårsinkomst (år). Regler kan ändras – kontrollera med
           bank/Skatteverket.
         </footer>
       </main>
