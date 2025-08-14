@@ -3,9 +3,11 @@ import type { State } from "../types";
 export default function ImportExportButtons({
   s,
   onImport,
+  className = "",
 }: {
   s: State;
   onImport: (data: State) => void;
+  className?: string;
 }) {
   const onExport = () => {
     const dataStr = JSON.stringify(s, null, 2);
@@ -42,11 +44,17 @@ export default function ImportExportButtons({
   };
 
   return (
-    <div className="flex gap-2">
-      <button className="btn-ghost" onClick={onExport}>
+    <div className={`flex gap-2 ${className}`}>
+      <button
+        className={`btn-ghost ${className ? "flex-1" : ""}`}
+        onClick={onExport}
+      >
         Exportera data
       </button>
-      <button className="btn-ghost" onClick={onImportClick}>
+      <button
+        className={`btn-ghost ${className ? "flex-1" : ""}`}
+        onClick={onImportClick}
+      >
         Importera data
       </button>
     </div>

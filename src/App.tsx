@@ -15,6 +15,7 @@ import ExportButtons from "./components/ExportButtons";
 import ExportTable from "./components/ExportTable";
 import ImportExportButtons from "./components/ImportExportButtons";
 import CollapsibleSection from "./components/CollapsibleSection";
+import MobileMenu from "./components/MobileMenu";
 
 export default function App() {
   const [s, setS] = React.useState<State>(load());
@@ -65,8 +66,15 @@ export default function App() {
       >
         <div className="max-w-6xl mx-auto p-3">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-semibold">Bostadsbyte-kalkylator</h1>
-            <div className="ml-auto flex items-center gap-3">
+            {/* Mobile menu - positioned before title */}
+            <MobileMenu s={s} onImport={importData} captureRef={captureRef} />
+
+            <h1 className="text-lg md:text-xl font-semibold flex-1">
+              Bostadsbyte-kalkylator
+            </h1>
+
+            {/* Desktop buttons */}
+            <div className="hidden md:flex items-center gap-3">
               <ExportButtons captureRef={captureRef} />
               <ImportExportButtons s={s} onImport={importData} />
               <button
@@ -82,7 +90,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <p className="text-sub text-sm">
+          <p className="text-sub text-sm mt-2 md:mt-0">
             Allt sparas lokalt i webbläsaren. Du kan exportera och importera
             data som JSON-filer för att säkerhetskopiera eller dela beräkningar.
           </p>

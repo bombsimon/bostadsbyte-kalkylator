@@ -3,8 +3,10 @@ import html2canvas from "html2canvas";
 
 export default function ExportButtons({
   captureRef,
+  className = "",
 }: {
   captureRef: React.RefObject<HTMLElement>;
+  className?: string;
 }) {
   const onPdf = async () => {
     if (!captureRef.current) return;
@@ -30,7 +32,7 @@ export default function ExportButtons({
   };
 
   return (
-    <button className="btn" onClick={onPdf}>
+    <button className={`btn ${className}`} onClick={onPdf}>
       Exportera PDF
     </button>
   );
