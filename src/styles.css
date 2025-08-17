@@ -17,7 +17,7 @@
 .kpi {
   @apply rounded-2xl border p-3;
   border-color: var(--border);
-  background-color: theme("colors.card");
+  background-color: theme('colors.card');
 }
 .input {
   @apply w-full rounded-xl border px-3 py-2 bg-panel text-text;
@@ -27,20 +27,20 @@
   @apply font-semibold rounded-xl px-3 py-2;
   background-image: linear-gradient(
     90deg,
-    theme("colors.accent"),
-    theme("colors.accent2")
+    theme('colors.accent'),
+    theme('colors.accent2')
   );
   color: #0b0e14;
 }
 .btn-ghost {
   @apply rounded-xl px-3 py-2 border;
   border-color: var(--border);
-  color: theme("colors.sub");
+  color: theme('colors.sub');
   background: transparent;
 }
 .pill {
   @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm;
-  background-color: theme("colors.muted");
+  background-color: theme('colors.muted');
   color: #dfe6ff;
 }
 .label {

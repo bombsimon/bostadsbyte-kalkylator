@@ -1,6 +1,6 @@
-import { LineItem } from "../types";
-import { parseNumberInput, handleLeadingZeros } from "../utils";
-import CollapsibleSection from "./CollapsibleSection";
+import { LineItem } from '../types'
+import { parseNumberInput, handleLeadingZeros } from '../utils'
+import CollapsibleSection from './CollapsibleSection'
 
 export default function Costs({
   items,
@@ -9,11 +9,11 @@ export default function Costs({
   onChange,
   onRemove,
 }: {
-  items: LineItem[];
-  title: string;
-  onAdd: () => void;
-  onChange: (idx: number, patch: Partial<LineItem>) => void;
-  onRemove: (idx: number) => void;
+  items: LineItem[]
+  title: string
+  onAdd: () => void
+  onChange: (idx: number, patch: Partial<LineItem>) => void
+  onRemove: (idx: number) => void
 }) {
   return (
     <CollapsibleSection title={title}>
@@ -32,7 +32,7 @@ export default function Costs({
                 <input
                   className="input"
                   value={c.name}
-                  onChange={(e) => onChange(idx, { name: e.target.value })}
+                  onChange={e => onChange(idx, { name: e.target.value })}
                 />
               </td>
               <td>
@@ -42,7 +42,7 @@ export default function Costs({
                   step={100}
                   min={0}
                   value={c.amount}
-                  onChange={(e) =>
+                  onChange={e =>
                     onChange(idx, { amount: parseNumberInput(e.target.value) })
                   }
                   onInput={handleLeadingZeros}
@@ -61,5 +61,5 @@ export default function Costs({
         + Lägg till
       </button>
     </CollapsibleSection>
-  );
+  )
 }

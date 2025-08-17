@@ -1,6 +1,6 @@
-import { Owner } from "../types";
-import { parseNumberInput, handleLeadingZeros } from "../utils";
-import CollapsibleSection from "./CollapsibleSection";
+import { Owner } from '../types'
+import { parseNumberInput, handleLeadingZeros } from '../utils'
+import CollapsibleSection from './CollapsibleSection'
 
 export default function Owners({
   owners,
@@ -8,10 +8,10 @@ export default function Owners({
   onAdd,
   onRemove,
 }: {
-  owners: Owner[];
-  onChange: (idx: number, patch: Partial<Owner>) => void;
-  onAdd: () => void;
-  onRemove: (idx: number) => void;
+  owners: Owner[]
+  onChange: (idx: number, patch: Partial<Owner>) => void
+  onAdd: () => void
+  onRemove: (idx: number) => void
 }) {
   return (
     <CollapsibleSection title="Ägare och inkomster">
@@ -22,7 +22,7 @@ export default function Owners({
             <input
               className="input"
               value={o.name}
-              onChange={(e) => onChange(idx, { name: e.target.value })}
+              onChange={e => onChange(idx, { name: e.target.value })}
             />
           </div>
           <div>
@@ -33,7 +33,7 @@ export default function Owners({
               step={100}
               min={0}
               value={o.incomeMonthly}
-              onChange={(e) =>
+              onChange={e =>
                 onChange(idx, {
                   incomeMonthly: parseNumberInput(e.target.value),
                 })
@@ -49,7 +49,7 @@ export default function Owners({
               step={1000}
               min={0}
               value={o.capital}
-              onChange={(e) =>
+              onChange={e =>
                 onChange(idx, { capital: parseNumberInput(e.target.value) })
               }
               onInput={handleLeadingZeros}
@@ -68,5 +68,5 @@ export default function Owners({
         </button>
       </div>
     </CollapsibleSection>
-  );
+  )
 }

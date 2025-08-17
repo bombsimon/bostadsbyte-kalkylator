@@ -1,6 +1,6 @@
-import { Loan } from "../types";
-import { parseNumberInput, handleLeadingZeros } from "../utils";
-import CollapsibleSection from "./CollapsibleSection";
+import { Loan } from '../types'
+import { parseNumberInput, handleLeadingZeros } from '../utils'
+import CollapsibleSection from './CollapsibleSection'
 
 export default function Loans({
   loans,
@@ -8,10 +8,10 @@ export default function Loans({
   onChange,
   onRemove,
 }: {
-  loans: Loan[];
-  onAdd: () => void;
-  onChange: (idx: number, patch: Partial<Loan>) => void;
-  onRemove: (idx: number) => void;
+  loans: Loan[]
+  onAdd: () => void
+  onChange: (idx: number, patch: Partial<Loan>) => void
+  onRemove: (idx: number) => void
 }) {
   return (
     <CollapsibleSection title="Nuvarande lån">
@@ -31,7 +31,7 @@ export default function Loans({
                 <input
                   className="input"
                   value={l.name}
-                  onChange={(e) => onChange(idx, { name: e.target.value })}
+                  onChange={e => onChange(idx, { name: e.target.value })}
                 />
               </td>
               <td>
@@ -41,7 +41,7 @@ export default function Loans({
                   step={1000}
                   min={0}
                   value={l.balance}
-                  onChange={(e) =>
+                  onChange={e =>
                     onChange(idx, { balance: parseNumberInput(e.target.value) })
                   }
                   onInput={handleLeadingZeros}
@@ -53,11 +53,11 @@ export default function Loans({
                   type="number"
                   step={0.01}
                   min={0}
-                  value={l.rate ?? ""}
-                  onChange={(e) =>
+                  value={l.rate ?? ''}
+                  onChange={e =>
                     onChange(idx, {
                       rate:
-                        e.target.value === ""
+                        e.target.value === ''
                           ? undefined
                           : parseNumberInput(e.target.value),
                     })
@@ -78,5 +78,5 @@ export default function Loans({
         + Lägg till lån
       </button>
     </CollapsibleSection>
-  );
+  )
 }

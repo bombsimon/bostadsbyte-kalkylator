@@ -1,18 +1,18 @@
-import { State } from "../types";
-import { compute } from "../calc";
-import { parseNumberInput, handleLeadingZeros } from "../utils";
-import CollapsibleSection from "./CollapsibleSection";
+import { State } from '../types'
+import { compute } from '../calc'
+import { parseNumberInput, handleLeadingZeros } from '../utils'
+import CollapsibleSection from './CollapsibleSection'
 
 export default function NewProperty({
   s,
   onChange,
 }: {
-  s: State;
-  onChange: (patch: Partial<State>) => void;
+  s: State
+  onChange: (patch: Partial<State>) => void
 }) {
-  const kpi = compute(s);
+  const kpi = compute(s)
   const maxNewPrice =
-    kpi.downPayment > 0 ? Math.floor(kpi.downPayment / 0.15) : 15000000;
+    kpi.downPayment > 0 ? Math.floor(kpi.downPayment / 0.15) : 15000000
   return (
     <CollapsibleSection title="Ny bostad (räkneexempel)">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -24,7 +24,7 @@ export default function NewProperty({
             step={1000}
             min={0}
             value={s.newPrice}
-            onChange={(e) =>
+            onChange={e =>
               onChange({ newPrice: parseNumberInput(e.target.value) })
             }
             onInput={handleLeadingZeros}
@@ -37,7 +37,7 @@ export default function NewProperty({
             max={maxNewPrice}
             step={10000}
             value={Math.min(s.newPrice, maxNewPrice)}
-            onChange={(e) =>
+            onChange={e =>
               onChange({ newPrice: parseNumberInput(e.target.value) })
             }
           />
@@ -50,7 +50,7 @@ export default function NewProperty({
             step={50}
             min={0}
             value={s.hoaFee}
-            onChange={(e) =>
+            onChange={e =>
               onChange({ hoaFee: parseNumberInput(e.target.value) })
             }
             onInput={handleLeadingZeros}
@@ -62,7 +62,7 @@ export default function NewProperty({
             max={10000}
             step={50}
             value={s.hoaFee}
-            onChange={(e) =>
+            onChange={e =>
               onChange({ hoaFee: parseNumberInput(e.target.value) })
             }
           />
@@ -71,8 +71,8 @@ export default function NewProperty({
           <div className="label mb-1">BRF / Beteckning (valfritt)</div>
           <input
             className="input"
-            value={s.assoc || ""}
-            onChange={(e) => onChange({ assoc: e.target.value })}
+            value={s.assoc || ''}
+            onChange={e => onChange({ assoc: e.target.value })}
           />
         </div>
       </div>
@@ -85,9 +85,7 @@ export default function NewProperty({
             step={0.05}
             min={0}
             value={s.rate}
-            onChange={(e) =>
-              onChange({ rate: parseNumberInput(e.target.value) })
-            }
+            onChange={e => onChange({ rate: parseNumberInput(e.target.value) })}
             onInput={handleLeadingZeros}
           />
           <input
@@ -97,12 +95,10 @@ export default function NewProperty({
             max={10}
             step={0.05}
             value={s.rate}
-            onChange={(e) =>
-              onChange({ rate: parseNumberInput(e.target.value) })
-            }
+            onChange={e => onChange({ rate: parseNumberInput(e.target.value) })}
           />
         </div>
       </div>
     </CollapsibleSection>
-  );
+  )
 }

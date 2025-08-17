@@ -1,69 +1,69 @@
-import * as React from "react";
-import { load, save } from "./persist";
-import { compute, SEK } from "./calc";
-import { parseNumberInput, handleLeadingZeros } from "./utils";
-import type { State } from "./types";
+import * as React from 'react'
+import { load, save } from './persist'
+import { compute, SEK } from './calc'
+import { parseNumberInput, handleLeadingZeros } from './utils'
+import type { State } from './types'
 
-import Owners from "./components/Owners";
-import Loans from "./components/Loans";
-import Costs from "./components/Costs";
-import Improvements from "./components/Improvements";
-import Summary from "./components/Summary";
-import NewProperty from "./components/NewProperty";
-import Charts from "./components/Charts";
-import ExportButtons from "./components/ExportButtons";
-import ExportTable from "./components/ExportTable";
-import ImportExportButtons from "./components/ImportExportButtons";
-import CollapsibleSection from "./components/CollapsibleSection";
-import MobileMenu from "./components/MobileMenu";
-import CollapsiblePriceControl from "./components/CollapsiblePriceControl";
+import Owners from './components/Owners'
+import Loans from './components/Loans'
+import Costs from './components/Costs'
+import Improvements from './components/Improvements'
+import Summary from './components/Summary'
+import NewProperty from './components/NewProperty'
+import Charts from './components/Charts'
+import ExportButtons from './components/ExportButtons'
+import ExportTable from './components/ExportTable'
+import ImportExportButtons from './components/ImportExportButtons'
+import CollapsibleSection from './components/CollapsibleSection'
+import MobileMenu from './components/MobileMenu'
+import CollapsiblePriceControl from './components/CollapsiblePriceControl'
 
 export default function App() {
-  const [s, setS] = React.useState<State>(load());
-  const captureRef = React.useRef<HTMLDivElement>(null);
+  const [s, setS] = React.useState<State>(load())
+  const captureRef = React.useRef<HTMLDivElement>(null)
 
-  const kpi = React.useMemo(() => compute(s), [s]);
+  const kpi = React.useMemo(() => compute(s), [s])
 
   function patch(p: Partial<State>) {
-    setS((prev) => {
-      const next = { ...prev, ...p };
-      save(next);
-      return next;
-    });
+    setS(prev => {
+      const next = { ...prev, ...p }
+      save(next)
+      return next
+    })
   }
 
   function importData(data: State) {
-    setS(data);
-    save(data);
+    setS(data)
+    save(data)
   }
 
   function mapChange<T extends keyof State>(key: T) {
     return (idx: number, patchItem: any) => {
-      const arr = [...(s[key] as any[])];
-      arr[idx] = { ...arr[idx], ...patchItem };
-      patch({ [key]: arr } as any);
-    };
+      const arr = [...(s[key] as any[])]
+      arr[idx] = { ...arr[idx], ...patchItem }
+      patch({ [key]: arr } as any)
+    }
   }
   function addItem<T extends keyof State>(key: T, item: any) {
-    const arr = [...(s[key] as any[]), { id: crypto.randomUUID(), ...item }];
-    patch({ [key]: arr } as any);
+    const arr = [...(s[key] as any[]), { id: crypto.randomUUID(), ...item }]
+    patch({ [key]: arr } as any)
   }
   function removeItem<T extends keyof State>(key: T) {
     return (idx: number) => {
-      const arr = [...(s[key] as any[])];
-      arr.splice(idx, 1);
+      const arr = [...(s[key] as any[])]
+      arr.splice(idx, 1)
       if (arr.length === 0) {
         /* keep one empty row */
       }
-      patch({ [key]: arr } as any);
-    };
+      patch({ [key]: arr } as any)
+    }
   }
 
   return (
     <div>
       <header
         className="sticky top-0 z-10 backdrop-blur bg-bg/70 border-b"
-        style={{ borderColor: "var(--border)" }}
+        style={{ borderColor: 'var(--border)' }}
       >
         <div className="max-w-6xl mx-auto p-3">
           <div className="flex items-center gap-3">
@@ -81,9 +81,9 @@ export default function App() {
               <button
                 className="btn-ghost"
                 onClick={() => {
-                  if (confirm("Återställ alla fält?")) {
-                    localStorage.clear();
-                    location.reload();
+                  if (confirm('Återställ alla fält?')) {
+                    localStorage.clear()
+                    location.reload()
                   }
                 }}
               >
@@ -97,36 +97,36 @@ export default function App() {
       <main className="max-w-4xl mx-auto p-3 space-y-3">
         <Owners
           owners={s.owners}
-          onChange={mapChange("owners")}
+          onChange={mapChange('owners')}
           onAdd={() =>
-            addItem("owners", { name: "", incomeMonthly: 0, capital: 0 })
+            addItem('owners', { name: '', incomeMonthly: 0, capital: 0 })
           }
-          onRemove={removeItem("owners")}
+          onRemove={removeItem('owners')}
         />
 
         <CollapsibleSection title="Nuvarande lägenhet (försäljning)">
           <div className="grid grid-cols-1 gap-3">
             <Loans
               loans={s.loans}
-              onAdd={() => addItem("loans", { name: "Lån", balance: 0 })}
-              onChange={mapChange("loans")}
-              onRemove={removeItem("loans")}
+              onAdd={() => addItem('loans', { name: 'Lån', balance: 0 })}
+              onChange={mapChange('loans')}
+              onRemove={removeItem('loans')}
             />
             <Costs
               title="Kostnader vid försäljning"
               items={s.sellCosts}
-              onAdd={() => addItem("sellCosts", { name: "Kostnad", amount: 0 })}
-              onChange={mapChange("sellCosts")}
-              onRemove={removeItem("sellCosts")}
+              onAdd={() => addItem('sellCosts', { name: 'Kostnad', amount: 0 })}
+              onChange={mapChange('sellCosts')}
+              onRemove={removeItem('sellCosts')}
             />
             <Improvements
               title="Förbättringsutgifter (avdragsgilla)"
               items={s.improvements}
               onAdd={() =>
-                addItem("improvements", { name: "Förbättring", amount: 0 })
+                addItem('improvements', { name: 'Förbättring', amount: 0 })
               }
-              onChange={mapChange("improvements")}
-              onRemove={removeItem("improvements")}
+              onChange={mapChange('improvements')}
+              onRemove={removeItem('improvements')}
             />
 
             {/* Sale details at bottom */}
@@ -140,7 +140,7 @@ export default function App() {
                     step={1000}
                     min={0}
                     value={s.salePrice}
-                    onChange={(e) =>
+                    onChange={e =>
                       patch({ salePrice: parseNumberInput(e.target.value) })
                     }
                     onInput={handleLeadingZeros}
@@ -154,7 +154,7 @@ export default function App() {
                     step={1000}
                     min={0}
                     value={s.purchasePriceOld}
-                    onChange={(e) =>
+                    onChange={e =>
                       patch({
                         purchasePriceOld: parseNumberInput(e.target.value),
                       })
@@ -168,7 +168,7 @@ export default function App() {
                     className="input"
                     type="date"
                     value={s.purchaseDateOld}
-                    onChange={(e) => patch({ purchaseDateOld: e.target.value })}
+                    onChange={e => patch({ purchaseDateOld: e.target.value })}
                   />
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default function App() {
                   type="checkbox"
                   id="uppskov-detail"
                   checked={s.uppskov}
-                  onChange={(e) => patch({ uppskov: e.target.checked })}
+                  onChange={e => patch({ uppskov: e.target.checked })}
                   className="rounded border-gray-300"
                 />
                 <label htmlFor="uppskov-detail" className="text-sm">
@@ -211,5 +211,5 @@ export default function App() {
       {/* Collapsible price controls */}
       <CollapsiblePriceControl s={s} onChange={patch} kpi={kpi} />
     </div>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-import { SEK } from "../calc";
-import type { State } from "../types";
+import { SEK } from '../calc'
+import type { State } from '../types'
 
 interface ExportTableProps {
-  s: State;
+  s: State
   kpi: {
-    loans: number;
-    sellCosts: number;
-    improvements: number;
-    gainRaw: number;
-    tax: number;
-    netAfter: number;
-    downPayment: number;
-    neededLoan: number;
-    ltv: number;
-    amortMonthly: number;
-    interestMonthly: number;
-    monthlyTotal: number;
-  };
+    loans: number
+    sellCosts: number
+    improvements: number
+    gainRaw: number
+    tax: number
+    netAfter: number
+    downPayment: number
+    neededLoan: number
+    ltv: number
+    amortMonthly: number
+    interestMonthly: number
+    monthlyTotal: number
+  }
 }
 
 export default function ExportTable({ s, kpi }: ExportTableProps) {
@@ -47,7 +47,7 @@ export default function ExportTable({ s, kpi }: ExportTableProps) {
             {s.owners.map((owner, idx) => (
               <tr key={idx}>
                 <td className="border-b border-gray-300 p-3 text-black">
-                  {owner.name || "-"}
+                  {owner.name || '-'}
                 </td>
                 <td className="border-b border-gray-300 p-3 text-right text-black">
                   {SEK(owner.incomeMonthly)}
@@ -283,5 +283,5 @@ export default function ExportTable({ s, kpi }: ExportTableProps) {
         </table>
       </div>
     </div>
-  );
+  )
 }

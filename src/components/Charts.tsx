@@ -10,18 +10,18 @@ import {
   YAxis,
   CartesianGrid,
   Legend,
-} from "recharts";
-import CollapsibleSection from "./CollapsibleSection";
+} from 'recharts'
+import CollapsibleSection from './CollapsibleSection'
 
-const COLORS = ["#7c5cff", "#00d4ff", "#ff6b6b", "#4ecdc4", "#45b7d1"];
+const COLORS = ['#7c5cff', '#00d4ff', '#ff6b6b', '#4ecdc4', '#45b7d1']
 
 function formatYAxis(value: number) {
   if (value >= 1000000) {
-    return `${(value / 1000000).toFixed(1)}M kr`;
+    return `${(value / 1000000).toFixed(1)}M kr`
   } else if (value >= 1000) {
-    return `${(value / 1000).toFixed(0)}k kr`;
+    return `${(value / 1000).toFixed(0)}k kr`
   }
-  return `${value} kr`;
+  return `${value} kr`
 }
 
 export default function Charts({
@@ -29,39 +29,39 @@ export default function Charts({
   s,
 }: {
   kpi: {
-    netAfter: number;
-    downPayment: number;
-    neededLoan: number;
-    amortMonthly: number;
-    interestMonthly: number;
-    ltv: number;
-    monthlyTotal: number;
-    totalCapital: number;
-    dtiLimit: number;
-    uppskov: boolean;
-    tax: number;
-    baseAmort: number;
-    extraAmort: number;
-  };
+    netAfter: number
+    downPayment: number
+    neededLoan: number
+    amortMonthly: number
+    interestMonthly: number
+    ltv: number
+    monthlyTotal: number
+    totalCapital: number
+    dtiLimit: number
+    uppskov: boolean
+    tax: number
+    baseAmort: number
+    extraAmort: number
+  }
   s: {
-    hoaFee?: number;
-    rate?: number;
-  };
+    hoaFee?: number
+    rate?: number
+  }
 }) {
   const largeAmounts = [
-    { name: "Netto efter förs.", value: kpi.netAfter, color: COLORS[0] },
-    { name: "Kontantinsats", value: kpi.downPayment, color: COLORS[1] },
-    { name: "Behövligt lån", value: kpi.neededLoan, color: COLORS[2] },
-  ].filter((item) => item.value > 0);
+    { name: 'Netto efter förs.', value: kpi.netAfter, color: COLORS[0] },
+    { name: 'Kontantinsats', value: kpi.downPayment, color: COLORS[1] },
+    { name: 'Behövligt lån', value: kpi.neededLoan, color: COLORS[2] },
+  ].filter(item => item.value > 0)
 
   const monthlyBreakdown = [
-    { name: "Amortering", value: kpi.amortMonthly },
-    { name: "Ränta", value: kpi.interestMonthly },
-    { name: "Månadsavgift", value: s.hoaFee || 0 },
-  ].filter((item) => item.value > 0);
+    { name: 'Amortering', value: kpi.amortMonthly },
+    { name: 'Ränta', value: kpi.interestMonthly },
+    { name: 'Månadsavgift', value: s.hoaFee || 0 },
+  ].filter(item => item.value > 0)
 
-  const ltvPercentage = (kpi.ltv * 100).toFixed(1);
-  const exceedsDtiLimit = kpi.neededLoan > kpi.dtiLimit && kpi.neededLoan > 0;
+  const ltvPercentage = (kpi.ltv * 100).toFixed(1)
+  const exceedsDtiLimit = kpi.neededLoan > kpi.dtiLimit && kpi.neededLoan > 0
 
   return (
     <CollapsibleSection
@@ -102,13 +102,13 @@ export default function Charts({
                 />
                 <Tooltip
                   formatter={(value: number) => [
-                    Number(value).toLocaleString("sv-SE") + " kr",
+                    Number(value).toLocaleString('sv-SE') + ' kr',
                   ]}
-                  labelStyle={{ color: "#374151" }}
+                  labelStyle={{ color: '#374151' }}
                   contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "6px",
+                    backgroundColor: '#fff',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '6px',
                   }}
                 />
                 <Bar dataKey="value" fill="#7c5cff" radius={[4, 4, 0, 0]} />
@@ -120,7 +120,7 @@ export default function Charts({
         {/* Monthly costs pie chart and LTV gauge */}
         <div className="space-y-4">
           {monthlyBreakdown.length > 0 &&
-            monthlyBreakdown.some((item) => item.value > 0) && (
+            monthlyBreakdown.some(item => item.value > 0) && (
               <div>
                 <h4 className="text-sm font-medium mb-2 text-sub">
                   Månadskostnader
@@ -146,17 +146,17 @@ export default function Charts({
                       </Pie>
                       <Tooltip
                         formatter={(value: number) => [
-                          Number(value).toLocaleString("sv-SE") + " kr/mån",
+                          Number(value).toLocaleString('sv-SE') + ' kr/mån',
                         ]}
                         contentStyle={{
-                          backgroundColor: "#fff",
-                          border: "1px solid #e5e7eb",
-                          borderRadius: "6px",
+                          backgroundColor: '#fff',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '6px',
                         }}
                       />
                       <Legend
-                        wrapperStyle={{ fontSize: "12px" }}
-                        formatter={(value) => value}
+                        wrapperStyle={{ fontSize: '12px' }}
+                        formatter={value => value}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -175,10 +175,10 @@ export default function Charts({
                   {ltvPercentage}%
                 </span>
                 <span className="text-sm text-sub">
-                  av{" "}
+                  av{' '}
                   {Number(kpi.neededLoan + kpi.downPayment).toLocaleString(
-                    "sv-SE",
-                  )}{" "}
+                    'sv-SE'
+                  )}{' '}
                   kr
                 </span>
               </div>
@@ -186,10 +186,10 @@ export default function Charts({
                 <div
                   className={`h-3 rounded-full transition-all duration-500 ${
                     kpi.ltv > 0.7
-                      ? "bg-red-500"
+                      ? 'bg-red-500'
                       : kpi.ltv > 0.5
-                        ? "bg-yellow-500"
-                        : "bg-green-500"
+                        ? 'bg-yellow-500'
+                        : 'bg-green-500'
                   }`}
                   style={{ width: `${Math.min(kpi.ltv * 100, 100)}%` }}
                 />
@@ -202,10 +202,10 @@ export default function Charts({
               </div>
               <p className="text-xs text-sub mt-2">
                 {kpi.ltv > 0.7
-                  ? "Över 70% - kräver 2% amortering"
+                  ? 'Över 70% - kräver 2% amortering'
                   : kpi.ltv > 0.5
-                    ? "50-70% - kräver 1% amortering"
-                    : "Under 50% - ingen amortering krävs"}
+                    ? '50-70% - kräver 1% amortering'
+                    : 'Under 50% - ingen amortering krävs'}
                 {exceedsDtiLimit && (
                   <>
                     <br />
@@ -225,23 +225,23 @@ export default function Charts({
             Total månadskostnad
           </div>
           <div className="text-lg font-bold text-blue-800">
-            {Math.round(kpi.monthlyTotal).toLocaleString("sv-SE")} kr
+            {Math.round(kpi.monthlyTotal).toLocaleString('sv-SE')} kr
           </div>
           <div className="text-xs text-blue-600 mt-1 space-y-0.5">
             <div>
               • Amortering (
               {((kpi.baseAmort + kpi.extraAmort) * 100)
                 .toFixed(1)
-                .replace(".", ",")}
-              %): {Math.round(kpi.amortMonthly).toLocaleString("sv-SE")} kr
+                .replace('.', ',')}
+              %): {Math.round(kpi.amortMonthly).toLocaleString('sv-SE')} kr
             </div>
             <div>
-              • Ränta ({(s.rate || 0).toString().replace(".", ",")}%):{" "}
-              {Math.round(kpi.interestMonthly).toLocaleString("sv-SE")} kr
+              • Ränta ({(s.rate || 0).toString().replace('.', ',')}%):{' '}
+              {Math.round(kpi.interestMonthly).toLocaleString('sv-SE')} kr
             </div>
             {(s.hoaFee || 0) > 0 && (
               <div>
-                • Avgift: {Math.round(s.hoaFee || 0).toLocaleString("sv-SE")} kr
+                • Avgift: {Math.round(s.hoaFee || 0).toLocaleString('sv-SE')} kr
               </div>
             )}
           </div>
@@ -251,33 +251,33 @@ export default function Charts({
             Kontantinsats
           </div>
           <div className="text-lg font-bold text-green-800">
-            {Math.round(kpi.downPayment).toLocaleString("sv-SE")} kr
+            {Math.round(kpi.downPayment).toLocaleString('sv-SE')} kr
           </div>
           <div className="text-xs text-green-600 mt-1 space-y-0.5">
             <div>
-              • Netto efter försäljning:{" "}
-              {Math.round(kpi.netAfter).toLocaleString("sv-SE")} kr
+              • Netto efter försäljning:{' '}
+              {Math.round(kpi.netAfter).toLocaleString('sv-SE')} kr
             </div>
             <div>
-              • Egna tillgångar:{" "}
-              {Math.round(kpi.totalCapital).toLocaleString("sv-SE")} kr
+              • Egna tillgångar:{' '}
+              {Math.round(kpi.totalCapital).toLocaleString('sv-SE')} kr
             </div>
           </div>
         </div>
         <div className="bg-purple-50 p-3 rounded-lg">
           <div className="text-xs text-purple-600 font-medium">Lånebehov</div>
           <div className="text-lg font-bold text-purple-800">
-            {Math.round(kpi.neededLoan).toLocaleString("sv-SE")} kr
+            {Math.round(kpi.neededLoan).toLocaleString('sv-SE')} kr
           </div>
           <div className="text-xs text-purple-600 mt-1">
-            • Pris nya bostaden:{" "}
+            • Pris nya bostaden:{' '}
             {Math.round(kpi.neededLoan + kpi.downPayment).toLocaleString(
-              "sv-SE",
-            )}{" "}
+              'sv-SE'
+            )}{' '}
             kr
           </div>
         </div>
       </div>
     </CollapsibleSection>
-  );
+  )
 }

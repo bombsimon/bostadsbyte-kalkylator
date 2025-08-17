@@ -1,15 +1,15 @@
-import * as React from "react";
+import * as React from 'react'
 
 export default function CollapsibleSection({
   title,
   children,
   defaultExpanded = true,
 }: {
-  title: string | React.ReactNode;
-  children: React.ReactNode;
-  defaultExpanded?: boolean;
+  title: string | React.ReactNode
+  children: React.ReactNode
+  defaultExpanded?: boolean
 }) {
-  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
+  const [isExpanded, setIsExpanded] = React.useState(defaultExpanded)
 
   return (
     <section className="card p-4">
@@ -20,7 +20,7 @@ export default function CollapsibleSection({
         <h2 className="text-lg font-semibold">{title}</h2>
         <svg
           className={`w-5 h-5 transition-transform duration-200 ${
-            isExpanded ? "rotate-180" : ""
+            isExpanded ? 'rotate-180' : ''
           }`}
           fill="none"
           stroke="currentColor"
@@ -36,5 +36,5 @@ export default function CollapsibleSection({
       </div>
       {isExpanded && <div className="mt-2">{children}</div>}
     </section>
-  );
+  )
 }
