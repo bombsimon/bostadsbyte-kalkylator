@@ -1,22 +1,32 @@
 import { LineItem } from '../types'
-import { parseNumberInput, handleLeadingZeros } from '../utils'
+import {
+  parseNumberInput,
+  handleLeadingZeros,
+  formatNumberForInput,
+} from '../utils'
+import FormattedNumberInput from './FormattedNumberInput'
 import CollapsibleSection from './CollapsibleSection'
 
 export default function Costs({
   items,
   title,
+  description,
   onAdd,
   onChange,
   onRemove,
 }: {
   items: LineItem[]
   title: string
+  description?: string
   onAdd: () => void
   onChange: (idx: number, patch: Partial<LineItem>) => void
   onRemove: (idx: number) => void
 }) {
   return (
     <CollapsibleSection title={title}>
+      {description && (
+        <div className="text-sub text-sm mb-3">{description}</div>
+      )}
       <table className="table">
         <thead>
           <tr>
@@ -31,21 +41,16 @@ export default function Costs({
               <td>
                 <input
                   className="input"
+                  placeholder="Typ"
                   value={c.name}
                   onChange={e => onChange(idx, { name: e.target.value })}
                 />
               </td>
               <td>
-                <input
+                <FormattedNumberInput
                   className="input"
-                  type="number"
-                  step={100}
-                  min={0}
                   value={c.amount}
-                  onChange={e =>
-                    onChange(idx, { amount: parseNumberInput(e.target.value) })
-                  }
-                  onInput={handleLeadingZeros}
+                  onChange={value => onChange(idx, { amount: value })}
                 />
               </td>
               <td className="text-right">

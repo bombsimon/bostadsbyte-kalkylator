@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { load, save } from './persist'
 import { compute, SEK } from './calc'
-import { parseNumberInput, handleLeadingZeros } from './utils'
+import {
+  parseNumberInput,
+  handleLeadingZeros,
+  formatNumberForInput,
+} from './utils'
+import FormattedNumberInput from './components/FormattedNumberInput'
 import type { State } from './types'
 
 import Owners from './components/Owners'
@@ -108,23 +113,22 @@ export default function App() {
           <div className="grid grid-cols-1 gap-3">
             <Loans
               loans={s.loans}
-              onAdd={() => addItem('loans', { name: 'Lån', balance: 0 })}
+              onAdd={() => addItem('loans', { name: '', balance: 0 })}
               onChange={mapChange('loans')}
               onRemove={removeItem('loans')}
             />
             <Costs
               title="Kostnader vid försäljning"
               items={s.sellCosts}
-              onAdd={() => addItem('sellCosts', { name: 'Kostnad', amount: 0 })}
+              onAdd={() => addItem('sellCosts', { name: '', amount: 0 })}
               onChange={mapChange('sellCosts')}
               onRemove={removeItem('sellCosts')}
             />
             <Improvements
               title="Förbättringsutgifter (avdragsgilla)"
+              description="Villkor för avdrag: Förbättringsutgifter måste vara minst 5 000 kr och max 5 år gamla för att vara avdragsgilla."
               items={s.improvements}
-              onAdd={() =>
-                addItem('improvements', { name: 'Förbättring', amount: 0 })
-              }
+              onAdd={() => addItem('improvements', { name: '', amount: 0 })}
               onChange={mapChange('improvements')}
               onRemove={removeItem('improvements')}
             />
@@ -134,32 +138,18 @@ export default function App() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
                   <div className="label mb-1">Försäljningspris (kr)</div>
-                  <input
+                  <FormattedNumberInput
                     className="input"
-                    type="number"
-                    step={1000}
-                    min={0}
                     value={s.salePrice}
-                    onChange={e =>
-                      patch({ salePrice: parseNumberInput(e.target.value) })
-                    }
-                    onInput={handleLeadingZeros}
+                    onChange={value => patch({ salePrice: value })}
                   />
                 </div>
                 <div>
                   <div className="label mb-1">Inköpspris (kr)</div>
-                  <input
+                  <FormattedNumberInput
                     className="input"
-                    type="number"
-                    step={1000}
-                    min={0}
                     value={s.purchasePriceOld}
-                    onChange={e =>
-                      patch({
-                        purchasePriceOld: parseNumberInput(e.target.value),
-                      })
-                    }
-                    onInput={handleLeadingZeros}
+                    onChange={value => patch({ purchasePriceOld: value })}
                   />
                 </div>
                 <div>

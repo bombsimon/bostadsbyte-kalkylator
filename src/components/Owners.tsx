@@ -1,5 +1,10 @@
 import { Owner } from '../types'
-import { parseNumberInput, handleLeadingZeros } from '../utils'
+import {
+  parseNumberInput,
+  handleLeadingZeros,
+  formatNumberForInput,
+} from '../utils'
+import FormattedNumberInput from './FormattedNumberInput'
 import CollapsibleSection from './CollapsibleSection'
 
 export default function Owners({
@@ -15,58 +20,52 @@ export default function Owners({
 }) {
   return (
     <CollapsibleSection title="Ägare och inkomster">
-      {owners.map((o, idx) => (
-        <div key={o.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
-          <div>
-            <div className="label mb-1">Namn</div>
-            <input
-              className="input"
-              value={o.name}
-              onChange={e => onChange(idx, { name: e.target.value })}
-            />
-          </div>
-          <div>
-            <div className="label mb-1">Bruttoinkomst (kr/mån)</div>
-            <input
-              className="input"
-              type="number"
-              step={100}
-              min={0}
-              value={o.incomeMonthly}
-              onChange={e =>
-                onChange(idx, {
-                  incomeMonthly: parseNumberInput(e.target.value),
-                })
-              }
-              onInput={handleLeadingZeros}
-            />
-          </div>
-          <div>
-            <div className="label mb-1">Kapital (kr)</div>
-            <input
-              className="input"
-              type="number"
-              step={1000}
-              min={0}
-              value={o.capital}
-              onChange={e =>
-                onChange(idx, { capital: parseNumberInput(e.target.value) })
-              }
-              onInput={handleLeadingZeros}
-            />
-          </div>
-          <div className="col-span-full flex justify-end">
-            <button className="btn-ghost" onClick={() => onRemove(idx)}>
-              Ta bort
-            </button>
-          </div>
-        </div>
-      ))}
-      <div className="flex gap-2">
-        <button className="btn" onClick={onAdd}>
-          + Lägg till ägare
-        </button>
-      </div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Namn</th>
+            <th>Bruttoinkomst (kr/mån)</th>
+            <th>Kapital (kr)</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {owners.map((o, idx) => (
+            <tr key={o.id}>
+              <td>
+                <input
+                  className="input"
+                  placeholder="Namn"
+                  value={o.name}
+                  onChange={e => onChange(idx, { name: e.target.value })}
+                />
+              </td>
+              <td>
+                <FormattedNumberInput
+                  className="input"
+                  value={o.incomeMonthly}
+                  onChange={value => onChange(idx, { incomeMonthly: value })}
+                />
+              </td>
+              <td>
+                <FormattedNumberInput
+                  className="input"
+                  value={o.capital}
+                  onChange={value => onChange(idx, { capital: value })}
+                />
+              </td>
+              <td className="text-right">
+                <button className="btn-ghost" onClick={() => onRemove(idx)}>
+                  ✕
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button className="btn mt-2" onClick={onAdd}>
+        + Lägg till
+      </button>
     </CollapsibleSection>
   )
 }

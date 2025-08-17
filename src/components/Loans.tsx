@@ -1,5 +1,10 @@
 import { Loan } from '../types'
-import { parseNumberInput, handleLeadingZeros } from '../utils'
+import {
+  parseNumberInput,
+  handleLeadingZeros,
+  formatNumberForInput,
+} from '../utils'
+import FormattedNumberInput from './FormattedNumberInput'
 import CollapsibleSection from './CollapsibleSection'
 
 export default function Loans({
@@ -30,39 +35,27 @@ export default function Loans({
               <td>
                 <input
                   className="input"
+                  placeholder="Lån"
                   value={l.name}
                   onChange={e => onChange(idx, { name: e.target.value })}
                 />
               </td>
               <td>
-                <input
+                <FormattedNumberInput
                   className="input"
-                  type="number"
-                  step={1000}
-                  min={0}
                   value={l.balance}
-                  onChange={e =>
-                    onChange(idx, { balance: parseNumberInput(e.target.value) })
-                  }
-                  onInput={handleLeadingZeros}
+                  onChange={value => onChange(idx, { balance: value })}
                 />
               </td>
               <td>
-                <input
+                <FormattedNumberInput
                   className="input"
-                  type="number"
-                  step={0.01}
-                  min={0}
-                  value={l.rate ?? ''}
-                  onChange={e =>
+                  value={l.rate || 0}
+                  onChange={value =>
                     onChange(idx, {
-                      rate:
-                        e.target.value === ''
-                          ? undefined
-                          : parseNumberInput(e.target.value),
+                      rate: value === 0 ? undefined : value,
                     })
                   }
-                  onInput={handleLeadingZeros}
                 />
               </td>
               <td className="text-right">
@@ -75,7 +68,7 @@ export default function Loans({
         </tbody>
       </table>
       <button className="btn mt-2" onClick={onAdd}>
-        + Lägg till lån
+        + Lägg till
       </button>
     </CollapsibleSection>
   )

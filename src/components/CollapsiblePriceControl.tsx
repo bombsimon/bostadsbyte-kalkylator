@@ -1,5 +1,10 @@
 import * as React from 'react'
-import { parseNumberInput, handleLeadingZeros } from '../utils'
+import {
+  parseNumberInput,
+  handleLeadingZeros,
+  formatNumberForInput,
+} from '../utils'
+import FormattedNumberInput from './FormattedNumberInput'
 import { SEK } from '../calc'
 import type { State } from '../types'
 
@@ -71,16 +76,10 @@ export default function CollapsiblePriceControl({
             {/* Sale Price Controls */}
             <div>
               <div className="label mb-2">Försäljningspris nuvarande (kr)</div>
-              <input
+              <FormattedNumberInput
                 className="input w-full"
-                type="number"
-                step={1000}
-                min={0}
                 value={s.salePrice}
-                onChange={e =>
-                  onChange({ salePrice: parseNumberInput(e.target.value) })
-                }
-                onInput={handleLeadingZeros}
+                onChange={value => onChange({ salePrice: value })}
               />
 
               {/* Slider */}
@@ -106,16 +105,10 @@ export default function CollapsiblePriceControl({
             {/* New Property Price Controls */}
             <div>
               <div className="label mb-2">Inköpspris ny bostad (kr)</div>
-              <input
+              <FormattedNumberInput
                 className="input w-full"
-                type="number"
-                step={1000}
-                min={0}
                 value={s.newPrice}
-                onChange={e =>
-                  onChange({ newPrice: parseNumberInput(e.target.value) })
-                }
-                onInput={handleLeadingZeros}
+                onChange={value => onChange({ newPrice: value })}
               />
 
               {/* Slider with dynamic max based on down payment (85% LTV) */}
@@ -147,6 +140,64 @@ export default function CollapsiblePriceControl({
                     </>
                   )
                 })()}
+              </div>
+            </div>
+
+            {/* Monthly Fee Controls */}
+            <div>
+              <div className="label mb-2">Månadsavgift ny bostad (kr/mån)</div>
+              <FormattedNumberInput
+                className="input w-full"
+                value={s.hoaFee}
+                onChange={value => onChange({ hoaFee: value })}
+              />
+
+              {/* Slider */}
+              <div className="mt-3">
+                <input
+                  className="w-full"
+                  type="range"
+                  min={0}
+                  max={10000}
+                  step={50}
+                  value={s.hoaFee}
+                  onChange={e =>
+                    onChange({ hoaFee: parseNumberInput(e.target.value) })
+                  }
+                />
+                <div className="flex justify-between text-xs text-sub mt-1">
+                  <span>0 kr</span>
+                  <span>10 000 kr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Interest Rate Controls */}
+            <div>
+              <div className="label mb-2">Ränta (% årlig)</div>
+              <FormattedNumberInput
+                className="input w-full"
+                value={s.rate}
+                onChange={value => onChange({ rate: value })}
+              />
+
+              {/* Slider */}
+              <div className="mt-3">
+                <input
+                  className="w-full"
+                  type="range"
+                  min={0}
+                  max={10}
+                  step={0.01}
+                  value={s.rate}
+                  onChange={e =>
+                    onChange({ rate: parseNumberInput(e.target.value) })
+                  }
+                />
+                <div className="flex justify-between text-xs text-sub mt-1">
+                  <span>0%</span>
+                  <span>10%</span>
+                </div>
               </div>
             </div>
 
@@ -247,9 +298,9 @@ export default function CollapsiblePriceControl({
             {/* Quick Tips */}
             <div className="bg-muted rounded-lg p-3">
               <div className="text-xs text-sub">
-                <strong>Tips:</strong> Dra båda slidrarna för att testa olika
-                kombinationer av försäljnings- och inköpspriser och se direkt
-                hur det påverkar din nya bostadsaffär.
+                <strong>Tips:</strong> Dra slidrarna för att testa olika
+                kombinationer av priser och värden och se direkt hur det
+                påverkar din nya bostadsaffär.
               </div>
             </div>
           </div>

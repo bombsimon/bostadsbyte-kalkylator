@@ -3,10 +3,28 @@ export function parseNumberInput(value: string): number {
   // Handle empty string
   if (value === '') return 0
 
+  // Remove spaces (thousand separators) before parsing
+  const cleanValue = value.replace(/\s/g, '')
+
   // Parse the number - this automatically removes leading zeros
-  const parsed = parseFloat(value)
+  const parsed = parseFloat(cleanValue)
 
   // Return 0 for NaN, otherwise return the parsed number
+  return isNaN(parsed) ? 0 : parsed
+}
+
+// Format number for display in input fields with Swedish thousand separators
+export function formatNumberForInput(value: number): string {
+  if (value === 0) return ''
+  return value.toLocaleString('sv-SE', { maximumFractionDigits: 10 })
+}
+
+// Parse formatted input back to number
+export function parseFormattedInput(value: string): number {
+  if (value === '') return 0
+  // Remove spaces and parse
+  const cleanValue = value.replace(/\s/g, '').replace(',', '.')
+  const parsed = parseFloat(cleanValue)
   return isNaN(parsed) ? 0 : parsed
 }
 
