@@ -14,8 +14,8 @@ export type State = {
   improvements: LineItem[]
   salePrice: number
   purchasePriceOld: number
-  purchaseDateOld?: string
   uppskov: boolean
+  capitalValue: number
   newPrice: number
   rate: number // annual %
   hoaFee: number // monthly

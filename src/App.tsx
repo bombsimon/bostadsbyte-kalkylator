@@ -1,11 +1,6 @@
 import * as React from 'react'
 import { load, save } from './persist'
 import { compute, SEK } from './calc'
-import {
-  parseNumberInput,
-  handleLeadingZeros,
-  formatNumberForInput,
-} from './utils'
 import FormattedNumberInput from './components/FormattedNumberInput'
 import type { State } from './types'
 
@@ -111,6 +106,25 @@ export default function App() {
 
         <CollapsibleSection title="Nuvarande lägenhet (försäljning)">
           <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <div className="label mb-1">Inköpspris (kr)</div>
+                <FormattedNumberInput
+                  className="input"
+                  value={s.purchasePriceOld}
+                  onChange={value => patch({ purchasePriceOld: value })}
+                />
+              </div>
+              <div>
+                <div className="label mb-1">Försäljningspris (kr)</div>
+                <FormattedNumberInput
+                  className="input"
+                  value={s.salePrice}
+                  onChange={value => patch({ salePrice: value })}
+                />
+              </div>
+            </div>
+
             <Loans
               loans={s.loans}
               onAdd={() => addItem('loans', { name: '', balance: 0 })}
@@ -133,37 +147,57 @@ export default function App() {
               onRemove={removeItem('improvements')}
             />
 
-            {/* Sale details at bottom */}
-            <CollapsibleSection title="Grunduppgifter försäljning">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div>
-                  <div className="label mb-1">Försäljningspris (kr)</div>
-                  <FormattedNumberInput
-                    className="input"
-                    value={s.salePrice}
-                    onChange={value => patch({ salePrice: value })}
-                  />
+            <CollapsibleSection title="Kapitalvärde (kapitaltillskott)">
+              <p className="text-sub text-sm mb-3">
+                Del av din månadsavgift som gått till BRF:ens amortering
+                (kapitaltillskott) kan räknas av mot vinsten vid försäljning.
+                Kontakta din BRF eller kontrollera årsredovisningen för att ta
+                reda på hur mycket du kan göra avdrag för. Du hittar ofta
+                uppgiften under "kapitaltillskott" eller "amortering per
+                bostadsrätt" i årsredovisningen.
+              </p>
+              <div className="max-w-sm">
+                <div className="label mb-1">Totalt kapitalvärde (kr)</div>
+                <FormattedNumberInput
+                  className="input"
+                  value={s.capitalValue}
+                  onChange={value => patch({ capitalValue: value })}
+                />
+              </div>
+            </CollapsibleSection>
+
+            {/* Inline selling result */}
+            <div
+              className="border rounded-lg p-4 space-y-3"
+              style={{
+                borderColor: 'var(--border)',
+                backgroundColor: 'var(--muted)',
+              }}
+            >
+              <h4 className="font-semibold">Försäljningsresultat</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="kpi">
+                  <div className="label">Beräknad vinst</div>
+                  <div className="mono text-lg">{SEK(kpi.gainRaw)}</div>
                 </div>
-                <div>
-                  <div className="label mb-1">Inköpspris (kr)</div>
-                  <FormattedNumberInput
-                    className="input"
-                    value={s.purchasePriceOld}
-                    onChange={value => patch({ purchasePriceOld: value })}
-                  />
+                <div
+                  className={`kpi ${!s.uppskov && kpi.tax > 0 ? 'text-bad' : kpi.uppskov && kpi.gainRaw > 0 ? 'text-good' : ''}`}
+                >
+                  <div className="label">
+                    Vinstskatt{kpi.uppskov ? ' (uppskov)' : ' (22%)'}
+                  </div>
+                  <div className="mono text-lg">{SEK(kpi.tax)}</div>
                 </div>
-                <div>
-                  <div className="label mb-1">Datum för inköp</div>
-                  <input
-                    className="input"
-                    type="date"
-                    value={s.purchaseDateOld}
-                    onChange={e => patch({ purchaseDateOld: e.target.value })}
-                  />
+                <div className="kpi text-good">
+                  <div className="label">Kvar efter försäljning</div>
+                  <div className="mono text-lg">{SEK(kpi.netAfter)}</div>
+                </div>
+                <div className="kpi">
+                  <div className="label">Lån att lösa</div>
+                  <div className="mono text-lg">{SEK(kpi.loans)}</div>
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 mt-3">
+              <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   id="uppskov-detail"
@@ -176,7 +210,7 @@ export default function App() {
                   försäljning)
                 </label>
               </div>
-            </CollapsibleSection>
+            </div>
           </div>
         </CollapsibleSection>
 

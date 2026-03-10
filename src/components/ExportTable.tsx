@@ -7,6 +7,7 @@ interface ExportTableProps {
     loans: number
     sellCosts: number
     improvements: number
+    capitalValue: number
     gainRaw: number
     tax: number
     netAfter: number
@@ -201,6 +202,16 @@ export default function ExportTable({ s, kpi }: ExportTableProps) {
                 {SEK(s.purchasePriceOld)}
               </td>
             </tr>
+            {kpi.capitalValue > 0 && (
+              <tr>
+                <td className="border-b border-gray-300 p-3 text-black">
+                  Kapitalvärde (avdrag)
+                </td>
+                <td className="border-b border-gray-300 p-3 text-right text-black">
+                  {SEK(kpi.capitalValue)}
+                </td>
+              </tr>
+            )}
             <tr>
               <td className="border-b border-gray-300 p-3 font-bold text-black">
                 Vinst

@@ -14,6 +14,9 @@ export default function Summary({ kpi, s }: { kpi: any; s: any }) {
         <K label="Kapital till kontantinsats" v={SEK(kpi.totalCapital)} />
         <K label="Summa lån att lösa" v={SEK(kpi.loans)} />
         <K label="Beräknad vinst" v={SEK(kpi.gainRaw)} />
+        {kpi.capitalValue > 0 && (
+          <K label="Kapitalvärde (avdrag)" v={SEK(kpi.capitalValue)} good />
+        )}
         <K
           label={`Vinstskatt${kpi.uppskov ? ' (uppskov)' : ' (22%)'}`}
           v={SEK(kpi.tax)}

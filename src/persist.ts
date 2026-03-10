@@ -2,31 +2,33 @@ import type { State } from './types'
 
 const KEY = 'bostadsbyte-kalkyl-v2'
 
+const DEFAULTS: State = {
+  owners: [
+    { id: crypto.randomUUID(), name: '', incomeMonthly: 0, capital: 0 },
+  ],
+  loans: [
+    { id: crypto.randomUUID(), name: 'Lån 1', balance: 0, rate: undefined },
+  ],
+  sellCosts: [{ id: crypto.randomUUID(), name: 'Mäklararvode', amount: 0 }],
+  improvements: [{ id: crypto.randomUUID(), name: 'Renovering', amount: 0 }],
+  salePrice: 0,
+  purchasePriceOld: 0,
+  uppskov: false,
+  capitalValue: 0,
+  newPrice: 0,
+  rate: 0,
+  hoaFee: 0,
+  assoc: '',
+}
+
 export function load(): State {
   const raw = localStorage.getItem(KEY)
   if (raw) {
     try {
-      return JSON.parse(raw)
+      return { ...DEFAULTS, ...JSON.parse(raw) }
     } catch (_) {}
   }
-  return {
-    owners: [
-      { id: crypto.randomUUID(), name: '', incomeMonthly: 0, capital: 0 },
-    ],
-    loans: [
-      { id: crypto.randomUUID(), name: 'Lån 1', balance: 0, rate: undefined },
-    ],
-    sellCosts: [{ id: crypto.randomUUID(), name: 'Mäklararvode', amount: 0 }],
-    improvements: [{ id: crypto.randomUUID(), name: 'Renovering', amount: 0 }],
-    salePrice: 0,
-    purchasePriceOld: 0,
-    purchaseDateOld: '',
-    uppskov: false,
-    newPrice: 0,
-    rate: 0,
-    hoaFee: 0,
-    assoc: '',
-  }
+  return { ...DEFAULTS }
 }
 
 export function save(s: State) {

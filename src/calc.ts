@@ -20,9 +20,15 @@ export function compute(s: State) {
   const sellCosts = sum(s.sellCosts, c => c.amount)
   const improvements = sum(s.improvements, c => c.amount)
 
+  const capitalValue = s.capitalValue || 0
+
   const gainRaw = Math.max(
     0,
-    (s.salePrice || 0) - sellCosts - (s.purchasePriceOld || 0) - improvements
+    (s.salePrice || 0) -
+      sellCosts -
+      (s.purchasePriceOld || 0) -
+      improvements -
+      capitalValue
   )
   const tax = s.uppskov ? 0 : gainRaw * 0.22
   const netAfter = (s.salePrice || 0) - loans - sellCosts - tax
@@ -49,6 +55,7 @@ export function compute(s: State) {
     loans,
     sellCosts,
     improvements,
+    capitalValue,
     gainRaw,
     tax,
     netAfter,
